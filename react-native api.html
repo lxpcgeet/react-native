@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<!--API-->
+	1.Dimensions 获取设备的尺寸
+
+		var {height,width} = Dimensions.get('window')
+
+	2.export default / export / 均可用于   导出  常量、函数、文件、模块等。但是export default 在一个页面中只可以用一次。
+
+<!--组件-->
+	1.View 这是创建ui是最基础的组件，支持flex布局、样式、一些触摸处理等
+
+	2.TouchableOpacity  本组件用于封视图，使其可以正确响应触摸操作。当按下的时候，封装的视图的不透明度会降低。这里只是改变了不透明度
+		activeOpacity number 指定封装的视图在被触摸操作激活时以多少不透明度显示（0~1）
+		写法：<TouchableOpacity activeOpacity={.8}></TouchableOpacity>
+
+
+	3.Image 一个用于显示多种不同烈性图片的React组件，包括网络图片、静态资源、临时的本地图片、以及本地磁盘上的图片 
+		要注意这是个单标签
+		renderImages() {
+			return (
+				<View>
+					<Image style={styles.icon} source={require('./icon.png')}/>
+					<Image style={styles.logo} source={{ url:'http://facebook.github..' }}/>
+				</View>
+			)
+		}
+
+	4.Text 一个用于显示文本的React组件，并且它也支持嵌套、样式、以及触摸处理
+		<Text numberOfLines={5}>
+			{this.statee.bodyText}
+		</Text>
+
+
+</body>
