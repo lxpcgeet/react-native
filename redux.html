@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>redux 管理页面中的状态</title>
+</head>
+<body>
+
+<!--常用链接   http://www.jianshu.com/p/2c43860b0532-->
+
+<!--安装时遇到的问题 安装redux
+	https://stackoverflow.com/questions/41505664/getting-error-on-implementing-react-native-with-react-redux
+
+-->
+
+
+http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html //阮一峰基础链接
+
+http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html//异步操作  中间件
+
+
+<!--Redux 设计思想  来源于上面两个网址-->
+
+1.web应用是一个状态及，视图与状态是一一对应的；
+2.所有的状态，保存在一个对象里边 。
+
+import { createStore } from 'redux';
+const store = createStore(fn)//这个函数用来生成 store
+
+const state = store.getState();//这个方法得到当前时间点的状态  相同时间 state对一个view
+
+3.3 Action state的变化改变view 但是用户接触不到state 只能接触到state 因此state的变化必须是state导致的。
+			action 就是view发出的通知，表示state  要改变了
+ 
+			const action = {
+				type:'ADD_TODO',//type 属性是必须的，表示Action的名称  其他属性自由设置
+				payload:'Learn Redux'
+			}
+
+3.4 Action Creator view要发送多少种消息，有会有多少种action ，如果都手写比较麻烦，于是定义Action Creator 			来生成Action
+
+			const ADD_TODO = '添加 TODO';
+
+			function addTodo(text){//该函数就是一个Action Creator
+				return {
+					type:ADD_TODO,
+					text
+				}
+			}
+
+			const action = addTodo('Learn Redux')
+
+3.5 store.dispatch()  该方法是View 发出Action的唯一方法
+	import {createStore} from 'redux';
+	const store = createStore(fn);
+
+	store.dispatch({
+		type:'ADD_TODO',
+		payload:'Learn Redux'
+	})
+3.6 Reducer Store收到Action以后，必须给出一个新的state,这样view才有变化，这种state的计算过程就叫做 reduer
+
+	const reducer = function(state,action){//Reducer是一个函数 接受action 和 当前state作为参数，返回新state
+		//...
+		return new_state
+	}
+
+整个应用的初始状态，可以作为state的默认值。
+	const defaultState = 0;
+	const reducer = (state = defaultState,action) => {
+		switch (action.type) {
+			case 'ADD': 
+				return state + action.payload;
+			default:
+				return state;
+		}
+	}
+
+	const state = reducer(1,{//其实这个函数不用手动调用 store.dispatch 方法会触发Reducer的自动执行
+		type:'ADD',
+		payload:2
+	})
+
+	为了自动执行，Stroe 需要知道Reducer函数，做法就是在生成Stroe的时候，将Reducer传入CreateStore
+		import { createStore } from 'redux';
+		const store = createStore(reducer)//之后每当view发送一个新的Action，就会自动调用Reducer,得到新的State
+
+3.7 纯函数  Reducer函数最重要的特征是，他是一个纯函数。也就是说 ，只要有相同输入，就有相同输出。
+
+3.8 store.subscribe() 该方法设置监听函数 一旦state发生变化，就会自动执行这个函数
+
+	import {createStore} from 'redux';
+	const store = createStore(reducer);
+
+	let unsubscribe = store.subscribe(()=>console.log(store.getState()));//定义函数
+	unsubscribe();//执行函数 开始监听 调用这个函数 接触监听
+
+
+四.Store的实现
+	Store 提供了三个方法
+		Store.getState();//获取当前状态
+		Store.dispatch();/view发送action 改变状态
+		Store.subscribe();//监听状态的改变
+
+	import {createStore} from 'redux';
+	let {subscribe,getState,dispatch} = createStore(reducer);
+
+	createStore 方法可以接受第二个参数，表示State的最初状态。这通常是服务器给出的。
+	let store = createStore(todoApp,win.STATE_FORM_SERVER)	//win.STATE_FORM_SERVER代表整个应用的初始状态
+
+
+
+五。功能拆分  。。。。。。。这个以后再看
+
+六.工作流程
+
+
+<!--redux入门教程2-->
+
+中间件 与 异步操作
+
+同步： Action发送以后 ，Reducer立即算出State
+异步： Action发送以后 ，过一段时间再执行Reducer   // 这就要用到新的工具，中间件（middleware）
+
+一.中间件的概念
+		中间件就是一个函数，在发送Action 和 执行Reducer这两步之间，添加了一些其他的功能
+		也就是对 store.dispatch 进行改造
+
+二.中间件的用法
+		import {applyMiddleware,createStore} from 'redux';
+		import createLogger from 'redux-logger';
+		const logger = createLogger();
+
+		const store = createStore(//注意 第二个 参数可以是整个应用的初始状态作为参数 
+			reducer,
+			applyMiddleware(thunk,promise,logger)//loger一定要放在最后  中间件的次序有讲究
+		)
+
+三.applyMiddlewares() //Redux 的原生方法，作用是将所有中间件组成一个数组，依次执行
+
+四.异步操作的基本思路
+		同步操作执法处一种Action即可，异步操作的差别是他要发出三种Action
+
+				1.操作  发起时  的Ation
+				1.操作  成功时  的Ation
+				1.操作  失败时  的Ation
+
+		以向服务器取出数据为例，三种Action可以有两种不同的写法
+				// 写法一：名称相同，参数不同
+				{ type: 'FETCH_POSTS' }
+				{ type: 'FETCH_POSTS', status: 'error', error: 'Oops' }
+				{ type: 'FETCH_POSTS', status: 'success', response: { ... } }
+
+				// 写法二：名称不同
+				{ type: 'FETCH_POSTS_REQUEST' }
+				{ type: 'FETCH_POSTS_FAILURE', error: 'Oops' }
+				{ type: 'FETCH_POSTS_SUCCESS', response: { ... } }
+
+
+
+
+//////////////////////////////////
+react-thunk 作为中间件 实现异步操作
+
+redux-persist 持久化存储state 到缓存中 和localstorage 还不一样
+
+</body>
+</html>

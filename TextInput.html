@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TextInput 组件</title>
+</head>
+<body>
+
+	<!--
+		underlineColorAndroid="transparent" 去除android默认样式
+		onChangeText 该控件默认的方法  用来改变输入框的数据
+		value 这个控件的value值
+	-->
+
+	<View>
+        <TextInput
+            placeholder="请输入内容"
+            underlineColorAndroid="transparent"
+            value={this.state.text}
+            onChangeText={(text) => { this.setState({text}) }}
+            style={{borderWidth: 1,borderColor: 'red',height: 100}}
+        />
+    </View>
+
+
+    <!--插入的小组件一个小组件-->
+    <UselessInput
+        multiline = {true}//是真的时候可以输入多行文字
+        numberOfLines = {4}//最多可以输入4行文字
+        onChangeText = {(text)=>{this.setState({text})}}
+        value = {this.state.text}
+    />
+
+    class UselessInput extends Component ({
+        render(){
+            return (
+                <TextInput
+                    {...this.props}//继承父组件的属性
+                    underlineColorAndroid = 'transparent'//去除android的默认底色
+                    editable = {true}//是否可以编辑 默认为true 可以编辑
+                />
+            )
+        }
+    })
+
+
+
+</body>
+</html>

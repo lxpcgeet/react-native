@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>横竖屏控制组件</title>
+</head>
+<body>
+
+<!--react-native-orientation     http://www.cnblogs.com/maoyazhi/p/5411754.html -->
+
+用法：
+		
+componentWillMount() {//生命周期   元素即将加载的时候
+    // 判断横竖屏幕
+    var initial = Orientation.getInitialOrientation();
+    if (initial === 'PORTRAIT') {
+      //do stuff
+    } else {
+      //do other stuff
+    }
+    
+    // 只允许竖屏
+    Orientation.lockToPortrait();
+    //只允许横屏
+    Orientation.lockToLandscape();
+}
+
+
+
+</body>
+</html>

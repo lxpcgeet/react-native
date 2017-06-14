@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>state 状态</title>
+</head>
+<body>
+	constructor(props){
+		super(props)//执行父类的方法
+
+		setInterval( ()=>{
+			this.setState( previousState => {
+				return { showText:!previousState.showText }
+			} )
+		},1000 )
+	}
+
+	这个写法的参考链接http://blog.csdn.net/qwe12309888/article/details/71879763
+</body>
+</html>

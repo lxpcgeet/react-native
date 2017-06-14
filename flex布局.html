@@ -20,7 +20,6 @@
 			/*flex-direction: column-reverse; 纵轴为主轴*/
 			flex-direction: row;
 			/*flex-wrap: wrap;  当主轴方向大小不够时  自动换行*/
-			flex-wrap: 
 			
 			border: 1px solid #000;
 		}
@@ -29,16 +28,44 @@
 			height: 50px;
 			background-color: yellow;
 			border: 1px solid red;
+
 		}
+
+		.start {
+			justify-content: flex-start flex-end  center space-between;
+		}
+
+		/*flex布局方式  
+			容器上的属性
+				flex-direction:row;//设置主轴方向
+				justifyContent:flex-start;//设置主轴上的对齐方式
+				alignItems:flex-end;//设置副上的对其方式
+				flex-wrap:wrap;//设置当空间不够时  是否换行
+				align-content:flex-start;//有多根轴线时 副轴上的对齐方式 只有一根轴时，这个样式不起作用
+
+
+				flex-flow  这个属性是 flex-direction 和 align-items 的写
+				
+			项目上的容器
+				order:1;//根据数值的大小，排列
+				flex-grow:1;//放大多少倍
+				flex-shrink:1;//在空间不足时，缩小多少倍
+				flex-basis:500px;//分配多余空间之前 计算占据主轴空间的大小  就是元素实际的大小
+				align-self:flex-end;//允许单个项目和其余项目布局方式不一样
+
+				flex: 0 1 auto;// 这个属性是 flex-grow flex-shrink flex-basis 的集合 其默认值是 0 1 auto
+
+		*/
 	</style>
 </head>
 <body>
 	<div class='box'>
 		<p>1</p>
 		<p>2</p>
-		<p>3</p>
-		<p>4</p>
-		<p>5</p>
+		<p style='order: 7;flex-shrink: 0.5'>7</p>
+		<p style='order: 4;align-self:center'>4</p>
+		<p style='order: 5'>5</p>
+
 	</div>
 </body>
 </html>

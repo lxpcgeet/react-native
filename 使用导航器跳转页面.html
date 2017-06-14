@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>使用导航器跳转页面</title>
+</head>
+<body>
+
+	<!--路由  http://blog.csdn.net/sinat_17775997/article/details/70176688  网址  看最下边-->
+
+	import {StackNavigator} from 'react-navigation'  引入路由模块
+
+	const HelloWorld = StackNavigator({//路由
+		Home:{screen:HomeScreen},
+		Char:{screen:ChatScreen}
+	})
+
+	static navigationOptions = ({navigation}) => ({//导航栏标题
+		title:`chat with $(navigation.state.params.user)`
+	})
+
+	//页面跳转方法  const {navigate} = this.props.navigation;
+
+	<Button
+		onPress = { () => navigate('chat',{user:'lucy'}) }//第一个参数是跳转的路由  第二个参数是 前一个页面传递给跳转页面的参数
+		title = 'Chat with Lucy'
+	/>
+
+</body>
+</html>

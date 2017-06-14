@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FlatList</title>
+</head>
+<body>
+
+				data 插入的数据
+				renderItem 渲染出来的数据
+
+				注意：数据不能重复，如果重复了 只渲染第一个
+
+				<FlatList
+                    data = {[
+                        {key:'Devin'},
+                        {key:'du'},
+                        {key:'lan'},
+                        {key:'teddd'},
+                        {key:'Devin'},
+                        {key:'du1'},
+                        {key:'lan2'},
+                    ]}
+                    renderItem = { ({item}) => <Text key={item.key} style={styles.item}>{item.key}</Text> }
+                >
+                </FlatList>
+
+
+
+
+</body>
+</html>
