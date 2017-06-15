@@ -4,7 +4,9 @@
 	<title>使用导航器跳转页面</title>
 </head>
 <body>
-
+		https://reactnavigation.org/docs/navigators/stack 这个网站也讲的非常好
+		http://www.jianshu.com/p/7d435e199c96
+		http://www.jianshu.com/p/80408a62d690//mode 参数 在android下设置也没有用
 	<!--路由  http://blog.csdn.net/sinat_17775997/article/details/70176688  网址  看最下边-->
 
 	import {StackNavigator} from 'react-navigation'  引入路由模块
@@ -16,6 +18,7 @@
 
 	static navigationOptions = ({navigation}) => ({//导航栏标题
 		title:`chat with $(navigation.state.params.user)`
+		header:null//设置导航之后，每个页面都会显示导航这一栏，在当前页面设置为null 就可以隐藏当前页面的导航栏
 	})
 
 	//页面跳转方法  const {navigate} = this.props.navigation;
@@ -24,6 +27,10 @@
 		onPress = { () => navigate('chat',{user:'lucy'}) }//第一个参数是跳转的路由  第二个参数是 前一个页面传递给跳转页面的参数
 		title = 'Chat with Lucy'
 	/>
+
+
+
+
 
 </body>
 </html>
